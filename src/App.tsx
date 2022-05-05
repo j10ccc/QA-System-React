@@ -1,43 +1,28 @@
-import { List, Space, Tag } from "antd-mobile";
-import { CheckList } from "antd-mobile";
-import { ListItem } from "antd-mobile/es/components/list/list-item";
+import { NavBar } from "antd-mobile";
+import { createContext } from "react";
+import Preview from "./components/Preview";
 import { data } from "./data";
+import Slide from "./Slide";
 
+type OptionType = {
+  index: number;
+  content: string;
+}
 export type QuestionType = {
   topic: string;
   type: number;
-  options: string[];
+  score: number;
+  options: OptionType[];
 }
 
-enum TopicEnum {
-  单选 = 1,
-  多选,
-
-}
-
+export const DataContext = createContext(data);
 export default function App() {
-  console.log(data);
-  function encode(index: number) {
-    return String.fromCharCode(index + 65);
-  }
+
   return (
-    <List header='试卷'>
-      {data.map((item, index) => 
-        <>
-          <ListItem key={index}>
-            <Space>
-              <span>{index + 1}. {item.topic}</span>
-              <Tag>{TopicEnum[item.type]}</Tag>
-            </Space>
-         </ListItem>
-          <CheckList multiple={item.type == 2}>
-            {item.options.map((item, index) => 
-              <CheckList.Item value={encode(index)} key={index}>{String.fromCharCode(index + 65) +'. ' +  item}</CheckList.Item>
-            )}  
-          </CheckList>
-        </>
-        )
-      }
-    </List>
+    <>
+      <DataContext.Provider value={data}>
+        <Preview />
+      </DataContext.Provider>
+    </>
   )
 }
