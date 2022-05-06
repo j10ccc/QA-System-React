@@ -14,7 +14,7 @@ export default function EachQuestion(props: any) {
     <>
       <ListItem key={index}>
         <Space>
-          <span>{index + 1}. {item.topic}</span>
+          <span>{item.topic}</span>
           <Tag color={item.type === 2 ? 'primary' : undefined}>{TopicEnum[item.type]}</Tag>
         </Space>
       </ListItem>
