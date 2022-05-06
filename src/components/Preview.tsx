@@ -8,7 +8,7 @@ export default function Preview(props: any) {
 
   const data: DataType = props.data;
   return (
-    <List header='试卷总览'>
+    <List header='试卷总览' className="preview">
       {data.data?.map((item, index) =>
         <EachQuestion item={item} index={index} key={index} />
       )

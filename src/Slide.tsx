@@ -10,10 +10,16 @@ export default function Slide(props: any) {
   const swiper = useRef<SwiperRef>(null);
   const { curPage, setCurPage } = props;
 
+  const len = data.data?.length || 0;
 
   useEffect(() => {
     swiper.current?.swipeTo(curPage - 1);
-    console.log('curPage', curPage);
+    let container: HTMLElement | null = document.querySelector(".adm-swiper-track");
+    let item: HTMLElement | null;
+    if (curPage != len + 1) item = document.querySelectorAll('.question')[curPage - 1];
+    else item = document.querySelector('.preview');
+    container?.setAttribute('style', 'height: ' + item.clientHeight + 'px');
+
   }, [curPage])
 
   return (
@@ -26,9 +32,7 @@ export default function Slide(props: any) {
     >
       {data.data?.map((item, index) =>
         <Swiper.Item key={index}>
-          <List header={'第 ' + `${index + 1}` + ' 题'}>
-            <EachQuestion item={item} index={index} />
-          </List>
+          <EachQuestion item={item} index={index} />
         </Swiper.Item>
       )}
       <Swiper.Item>

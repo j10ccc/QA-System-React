@@ -11,7 +11,6 @@ export default function Indicator(props: any) {
       activeKey={`${curPage - 1}`}
       onChange={(index) => {
         setCurPage(Number(index) + 1)
-        console.log('clicked indic', index); // from 0
       }}>
       {data.data?.map((item, index) => {
         return <CapsuleTabs.Tab
