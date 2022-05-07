@@ -1,6 +1,7 @@
-import { NavBar } from "antd-mobile";
+import { NavBar, Space } from "antd-mobile";
 import { useState, createContext } from "react";
 import Indicator from "./components/Indicator";
+import PagePrompter from "./components/PagePrompter";
 import { data } from "./data";
 import Slide from "./Slide";
 
@@ -19,17 +20,18 @@ export const DataContext = createContext(data);
 export default function App() {
 
   const [curPage, setCurPage] = useState(1);
+  const dataLen = data.data?.length || 0;
   return (
-    <>
-      <NavBar back={null}>
-        <div>{data.name}</div>
-      </NavBar>
-
+    <Space block direction="vertical">
       <DataContext.Provider value={data}>
+        <NavBar back={null}>
+          <div>{data.name}</div>
+        </NavBar>
         <Indicator total={data.data?.length} curPage={curPage} setCurPage={setCurPage} />
-        <Slide data={data} curPage={curPage} setCurPage={setCurPage} />
+        <Slide curPage={curPage} setCurPage={setCurPage} />
 
       </DataContext.Provider>
-    </>
+      {curPage == dataLen + 1 ? null : <PagePrompter len={dataLen} curPage={curPage} setCurPage={setCurPage} />}
+    </Space>
   )
 }
