@@ -15,10 +15,12 @@ export default function Slide(props: any) {
   useEffect(() => {
     swiper.current?.swipeTo(curPage - 1);
     let container: HTMLElement | null = document.querySelector(".adm-swiper-track");
-    let item: HTMLElement | null;
-    if (curPage != len + 1) item = document.querySelectorAll('.question')[curPage - 1];
-    else item = document.querySelector('.preview');
-    container?.setAttribute('style', 'height: ' + item.clientHeight + 'px');
+    if (curPage != len + 1)
+      container?.setAttribute('style', 'height: calc(100vh - 160px)');
+    else
+      container?.setAttribute('style', 'height: ' +
+        document.querySelector('.preview')?.clientHeight
+      );
 
   }, [curPage])
 
