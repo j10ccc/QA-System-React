@@ -1,4 +1,4 @@
-import { NavBar, Space } from 'antd-mobile';
+import { NavBar } from 'antd-mobile';
 import { useState, createContext, useEffect } from 'react';
 import { getQuestionAPI } from './api/question';
 import Indicator from './components/Indicator';
@@ -14,7 +14,7 @@ export type QuestionType = {
   index?: number;
   topic: string;
   type: number;
-  score: number;
+  score?: number;
   options: OptionType[];
 };
 export type AnswerType = {
@@ -31,7 +31,6 @@ function initialAnsList(len: number) {
 export const DataContext = createContext({});
 
 export default function App() {
-  console.log('123');
   const [title, setTitle] = useState('');
   const [questionList, setQuestionList] = useState<QuestionType[]>([]);
   const [listLen, setListLen] = useState(0);
@@ -46,19 +45,26 @@ export default function App() {
 
   async function initialData() {
     await getQuestionAPI().then((res) => {
-      res.data.data.map((item: QuestionType, index: number) => {
-        item['index'] = index;
-        item.options.map((item: OptionType, index: number) => {
-          item['index'] = index;
+      const msg = res.data.msg;
+      let initialData: any = new Array<QuestionType>();
+
+      res.data.data.map((item: any, index: number) => {
+        let obj: any = new Object();
+        obj.index = index;
+        obj.topic = item.Topic;
+        obj.type = item.TypeNum;
+        obj.options = [];
+        item.Options.map((item: string, index: number) => {
+          obj.options.push({ index: index, content: item })
         });
-        return item;
+        initialData.push(obj)
       });
-      res.data.data.map((item: QuestionType) => {
+      initialData.map((item: QuestionType) => {
         item.options = shuffle(item.options);
         return item;
       });
-      res.data.data = shuffle(res.data.data);
-      setQuestionList(res.data.data);
+      initialData = shuffle(initialData);
+      setQuestionList(initialData);
       setAnsList(initialAnsList(res.data.data.length));
       setListLen(res.data.data.length);
       setTitle(res.data.name);

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TestContext } from '../test';
+import { TestContext } from '../config';
 
 export default function myAxios(axiosConfig: any) {
   const service = axios.create({

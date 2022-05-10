@@ -1,5 +1,4 @@
-import { List, Swiper } from 'antd-mobile';
-import { convertStringArrayToDate } from 'antd-mobile/es/components/date-picker/date-picker-date-utils';
+import { Swiper } from 'antd-mobile';
 import { SwiperRef } from 'antd-mobile/es/components/swiper';
 import { useEffect, useRef } from 'react';
 import EachQuestion from './components/EachQuection';

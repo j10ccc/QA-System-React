@@ -6,7 +6,7 @@ export default function Preview(props: any) {
   const { data, ansList, toggleAns } = props;
   function submit() {
     postAnsAPI(ansList).then((res) => {
-      console.log(res.data);
+      alert(res.data.score)
     });
   }
   return (

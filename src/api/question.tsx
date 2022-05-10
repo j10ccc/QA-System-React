@@ -1,6 +1,6 @@
 import { QuestionType } from '../App';
 import myAxios from './axios';
-import { TestContext } from '../test';
+import { TestContext } from '../config';
 
 export type DataType = {
   msg: string;

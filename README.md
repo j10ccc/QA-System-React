@@ -7,7 +7,7 @@
 
 ## Quick start
 
-Before you launch this, you should add config file `test.tsx` in `/src` that clarifies your backend service host.
+Before you launch this, you should add config file `config.ts` in `/src` that clarifies your backend service host.
 
 ```tsx
 export const TestContext = {

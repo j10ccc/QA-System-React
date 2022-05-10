@@ -7,7 +7,6 @@ enum TopicEnum {
 }
 export default function EachQuestion(props: any) {
   const { item, index, toggleAns, field } = props;
-
   return (
     <>
       <List header={'第 ' + `${index + 1}` + ' 题'} className='question'>
