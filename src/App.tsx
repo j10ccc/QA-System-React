@@ -5,6 +5,7 @@ import Indicator from './components/Indicator';
 import PagePrompter from './components/PagePrompter';
 import Slide from './Slide';
 import { shuffle } from './Utils';
+import { TestContext } from './config'
 
 type OptionType = {
   index: number;
@@ -34,7 +35,6 @@ export default function App() {
   const [title, setTitle] = useState('');
   const [questionList, setQuestionList] = useState<QuestionType[]>([]);
   const [listLen, setListLen] = useState(0);
-
   let loaded = false; // 处理 请求之后 setState 造成的 rerender
   useEffect(() => {
     if (!loaded) {
@@ -99,6 +99,7 @@ export default function App() {
         setCurPage={setCurPage}
         toggleAns={toggleAns}
         ansList={ansList}
+        paperCode={TestContext.contestID}
       />
       <PagePrompter total={listLen} curPage={curPage} setCurPage={setCurPage} />
     </>

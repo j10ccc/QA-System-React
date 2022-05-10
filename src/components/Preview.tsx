@@ -3,10 +3,12 @@ import { postAnsAPI } from '../api/score';
 import EachQuestion from './EachQuection';
 
 export default function Preview(props: any) {
-  const { data, ansList, toggleAns } = props;
+  const { data, ansList, toggleAns, paperCode } = props;
   function submit() {
-    postAnsAPI(ansList).then((res) => {
-      alert(res.data.score)
+    postAnsAPI({ paperCode, ansList }).then((res) => {
+      const { msg, name, data } = res.data;
+      alert(data);
+      console.log(msg, name, data);
     });
   }
   return (

@@ -6,7 +6,7 @@ import Preview from './components/Preview';
 
 export default function Slide(props: any) {
   const swiper = useRef<SwiperRef>(null);
-  const { total, data, curPage, setCurPage, toggleAns, ansList } = props;
+  const { total, data, curPage, setCurPage, toggleAns, ansList, paperCode } = props;
   useEffect(() => {
     swiper.current?.swipeTo(curPage - 1);
     let container: HTMLElement | null =
@@ -41,7 +41,7 @@ export default function Slide(props: any) {
         </Swiper.Item>
       ))}
       <Swiper.Item>
-        <Preview data={data} toggleAns={toggleAns} ansList={ansList} />
+        <Preview data={data} toggleAns={toggleAns} ansList={ansList} paperCode={paperCode} />
       </Swiper.Item>
     </Swiper>
   );
