@@ -11,6 +11,7 @@ type OptionType = {
   content: string;
 };
 export type QuestionType = {
+  index?: number;
   topic: string;
   type: number;
   score: number;
@@ -27,13 +28,14 @@ function initialAnsList(len: number) {
   return tmpList;
 }
 
-const data: QuestionType[] = shuffle(dataSource.data);
+const data: QuestionType[] = shuffle(dataSource().data);
 export const DataContext = createContext(data);
 export default function App() {
   const [curPage, setCurPage] = useState(1);
   const dataLen = data.length || 0;
   const [ansList, setAnsList] = useState<AnswerType[]>(initialAnsList(dataLen));
   function toggleAns(ans: AnswerType) {
+    console.log(ans);
     setAnsList((status) =>
       status.map((item, index) => (index == ans.id ? ans : item)),
     );

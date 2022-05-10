@@ -1,4 +1,4 @@
-import { Button, CheckList, Form, List, Space, Tag } from 'antd-mobile';
+import { Button, Form, List } from 'antd-mobile';
 import EachQuestion from './EachQuection';
 
 export default function Preview(props: any) {
@@ -21,7 +21,7 @@ export default function Preview(props: any) {
             index={index}
             toggleAns={toggleAns}
             key={index}
-            field={ansList[index]}
+            field={ansList[item.index]}
           />
         ))}
       </List>

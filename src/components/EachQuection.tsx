@@ -25,7 +25,7 @@ export default function EachQuestion(props: any) {
           multiple={item.type == 2}
           onChange={(value: string[]) => {
             return toggleAns({
-              id: index,
+              id: item.index,
               key: value,
             });
           }}

@@ -40,7 +40,7 @@ export default function Slide(props: any) {
             item={item}
             index={index}
             toggleAns={toggleAns}
-            field={ansList[index]}
+            field={ansList[item.index]}
           />
         </Swiper.Item>
       ))}
