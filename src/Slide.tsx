@@ -1,5 +1,5 @@
-import { List, Swiper } from 'antd-mobile';
-import { convertStringArrayToDate } from 'antd-mobile/es/components/date-picker/date-picker-date-utils';
+import React from 'react';
+import { Swiper } from 'antd-mobile';
 import { SwiperRef } from 'antd-mobile/es/components/swiper';
 import { useEffect, useRef } from 'react';
 import EachQuestion from './components/EachQuection';
@@ -7,7 +7,16 @@ import Preview from './components/Preview';
 
 export default function Slide(props: any) {
   const swiper = useRef<SwiperRef>(null);
-  const { total, data, curPage, setCurPage, toggleAns, ansList } = props;
+  const {
+    total,
+    data,
+    curPage,
+    setCurPage,
+    toggleAns,
+    ansList,
+    setScore,
+    setLoadStatus
+  } = props;
   useEffect(() => {
     swiper.current?.swipeTo(curPage - 1);
     let container: HTMLElement | null =
@@ -17,7 +26,7 @@ export default function Slide(props: any) {
     else {
       container?.setAttribute(
         'style',
-        'height: ' + document.querySelector('.preview')?.clientHeight,
+        'height: ' + document.querySelector('.preview')?.clientHeight
       );
     }
   }, [curPage]);
@@ -29,8 +38,7 @@ export default function Slide(props: any) {
       onIndexChange={(index) => {
         setCurPage(index + 1);
       }}
-      ref={swiper}
-    >
+      ref={swiper}>
       {data.map((item: any, index: any) => (
         <Swiper.Item key={index}>
           <EachQuestion
@@ -42,7 +50,14 @@ export default function Slide(props: any) {
         </Swiper.Item>
       ))}
       <Swiper.Item>
-        <Preview data={data} toggleAns={toggleAns} ansList={ansList} />
+        <Preview
+          data={data}
+          toggleAns={toggleAns}
+          ansList={ansList}
+          setCurPage={setCurPage}
+          setScore={setScore}
+          setLoadStatus={setLoadStatus}
+        />
       </Swiper.Item>
     </Swiper>
   );

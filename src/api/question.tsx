@@ -1,6 +1,5 @@
 import { QuestionType } from '../App';
 import myAxios from './axios';
-import { TestContext } from '../test';
 
 export type DataType = {
   msg: string;
@@ -9,7 +8,7 @@ export type DataType = {
 };
 export function getQuestionAPI(paramsList?: any) {
   return myAxios({
-    url: '/api/getQuestion?id=' + TestContext.contestID,
-    method: 'get',
+    url: '/api/getQuestion?id=' + paramsList,
+    method: 'get'
   });
 }

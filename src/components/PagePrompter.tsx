@@ -1,3 +1,4 @@
+import React from 'react';
 import { NavBar, Space } from 'antd-mobile';
 import { RightOutline } from 'antd-mobile-icons';
 
@@ -7,9 +8,8 @@ function GoNext(props: any) {
     <a
       onClick={() => {
         setCurPage(curPage + 1);
-      }}
-    >
-      <Space align='center'>
+      }}>
+      <Space align="center">
         <span style={{ fontSize: '15px' }}>
           {curPage != total ? '下一题' : '总览'}
         </span>
@@ -32,8 +32,7 @@ export default function PagePrompter(props: any) {
           }}
           right={
             <GoNext curPage={curPage} setCurPage={setCurPage} total={total} />
-          }
-        >
+          }>
           <div>
             第 {curPage} / {total} 题
           </div>

@@ -18,4 +18,13 @@ const rangeRam = function (begin, end, count) {
   return result;
 };
 
-console.log(shuffle([1, 2]));
+// console.log(shuffle([1, 2]));
+
+const test = () => {
+  return 
+  {
+    a: 1,
+  };
+};
+const obj = test();
+console.log(obj);
