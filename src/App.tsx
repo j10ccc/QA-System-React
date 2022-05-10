@@ -1,8 +1,8 @@
 import { NavBar, Space } from 'antd-mobile';
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
+import { getQuestionAPI } from './api/question';
 import Indicator from './components/Indicator';
 import PagePrompter from './components/PagePrompter';
-import { dataSource } from './data';
 import Slide from './Slide';
 import { shuffle } from './Utils';
 
@@ -28,39 +28,73 @@ function initialAnsList(len: number) {
   return tmpList;
 }
 
-const data: QuestionType[] = shuffle(dataSource().data);
-export const DataContext = createContext(data);
+export const DataContext = createContext({});
+
 export default function App() {
+  console.log('123');
+  const [title, setTitle] = useState('');
+  const [questionList, setQuestionList] = useState<QuestionType[]>([]);
+  const [listLen, setListLen] = useState(0);
+
+  let loaded = false; // 处理 请求之后 setState 造成的 rerender
+  useEffect(() => {
+    if (!loaded) {
+      initialData();
+      loaded = true;
+    }
+  }, []);
+
+  async function initialData() {
+    await getQuestionAPI().then((res) => {
+      res.data.data.map((item: QuestionType, index: number) => {
+        item['index'] = index;
+        item.options.map((item: OptionType, index: number) => {
+          item['index'] = index;
+        });
+        return item;
+      });
+      res.data.data.map((item: QuestionType) => {
+        item.options = shuffle(item.options);
+        return item;
+      });
+      res.data.data = shuffle(res.data.data);
+      setQuestionList(res.data.data);
+      setAnsList(initialAnsList(res.data.data.length));
+      setListLen(res.data.data.length);
+      setTitle(res.data.name);
+    });
+  }
+
   const [curPage, setCurPage] = useState(1);
-  const dataLen = data.length || 0;
-  const [ansList, setAnsList] = useState<AnswerType[]>(initialAnsList(dataLen));
+  const [ansList, setAnsList] = useState<AnswerType[]>([]);
   function toggleAns(ans: AnswerType) {
     console.log(ans);
     setAnsList((status) =>
       status.map((item, index) => (index == ans.id ? ans : item)),
     );
   }
-  // TODO: Context 优化
   // TODO: 增加进度条
   // TODO: 增加信息栏
-
   return (
     <>
-      <DataContext.Provider value={data}>
-        <NavBar back={null}>
-          <div>{dataSource.name}</div>
-        </NavBar>
-        <Indicator total={dataLen} curPage={curPage} setCurPage={setCurPage} />
-        <Slide
-          curPage={curPage}
-          setCurPage={setCurPage}
-          toggleAns={toggleAns}
-          ansList={ansList}
-        />
-      </DataContext.Provider>
-      {curPage == dataLen + 1 ? null : (
-        <PagePrompter len={dataLen} curPage={curPage} setCurPage={setCurPage} />
-      )}
+      <NavBar back={null}>
+        <div>{title}</div>
+      </NavBar>
+      <Indicator
+        total={listLen}
+        data={questionList}
+        curPage={curPage}
+        setCurPage={setCurPage}
+      />
+      <Slide
+        total={listLen}
+        data={questionList}
+        curPage={curPage}
+        setCurPage={setCurPage}
+        toggleAns={toggleAns}
+        ansList={ansList}
+      />
+      <PagePrompter total={listLen} curPage={curPage} setCurPage={setCurPage} />
     </>
   );
 }

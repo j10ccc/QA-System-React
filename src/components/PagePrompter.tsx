@@ -20,22 +20,25 @@ function GoNext(props: any) {
 }
 
 export default function PagePrompter(props: any) {
-  const { len, curPage, setCurPage } = props;
-  const style = {
-    position: 'fixed',
-    bottom: '0px',
-  };
-  return (
-    <NavBar
-      back={curPage == 1 ? null : '上一题'}
-      onBack={() => {
-        setCurPage(curPage - 1);
-      }}
-      right={<GoNext curPage={curPage} setCurPage={setCurPage} total={len} />}
-    >
-      <div>
-        第 {curPage} / {len} 题
-      </div>
-    </NavBar>
-  );
+  const { total, curPage, setCurPage } = props;
+
+  if (curPage != total + 1)
+    return (
+      <>
+        <NavBar
+          back={curPage == 1 ? null : '上一题'}
+          onBack={() => {
+            setCurPage(curPage - 1);
+          }}
+          right={
+            <GoNext curPage={curPage} setCurPage={setCurPage} total={total} />
+          }
+        >
+          <div>
+            第 {curPage} / {total} 题
+          </div>
+        </NavBar>
+      </>
+    );
+  else return null;
 }

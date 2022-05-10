@@ -1,10 +1,13 @@
 import { Button, Form, List } from 'antd-mobile';
+import { postAnsAPI } from '../api/score';
 import EachQuestion from './EachQuection';
 
 export default function Preview(props: any) {
   const { data, ansList, toggleAns } = props;
   function submit() {
-    console.log(ansList);
+    postAnsAPI(ansList).then((res) => {
+      console.log(res.data);
+    });
   }
   return (
     <Form
@@ -15,7 +18,7 @@ export default function Preview(props: any) {
       }
     >
       <List header='试卷总览' className='preview'>
-        {data.map((item, index) => (
+        {data.map((item: any, index: any) => (
           <EachQuestion
             item={item}
             index={index}
