@@ -12,7 +12,6 @@ Before you launch this, you should add config file `config.ts` in `/src` that cl
 ```tsx
 export const TestContext = {
   baseURL: 'http://localhost:8080',
-  contestID: '4399', // 试卷ID
 };
 ```
 
@@ -22,3 +21,5 @@ Then
 yarn
 yarn dev
 ```
+
+Finally, you can request with the URL like `http://localhost:8080/q?id=4399`

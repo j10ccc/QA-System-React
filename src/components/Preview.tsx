@@ -1,14 +1,31 @@
-import { Button, Form, List } from 'antd-mobile';
+import { Button, Dialog, Form, List } from 'antd-mobile';
 import { postAnsAPI } from '../api/score';
 import EachQuestion from './EachQuection';
 
 export default function Preview(props: any) {
-  const { data, ansList, toggleAns, paperCode } = props;
+  const { data, ansList, toggleAns, setScore, setLoadStatus } = props;
   function submit() {
-    postAnsAPI({ paperCode, ansList }).then((res) => {
-      const { msg, name, data } = res.data;
-      alert(data);
-      console.log(msg, name, data);
+    let emptyPage = 0;
+    for (let i = 0; i < ansList.length; i++) {
+      if (ansList[i].key.length === 0) {
+        emptyPage = i + 1;
+        break;
+      }
+    }
+    Dialog.confirm({
+      content: (emptyPage ? '你还有小题未完成，' : '') + '确认提交试卷？',
+      onConfirm: async () => {
+        const paperCode = location.href
+          .split('/q?')[1]
+          .split('&')[0]
+          .split('=')[1];
+        await postAnsAPI({ paperCode, ansList }).then((res) => {
+          const { msg, name, data } = res.data;
+          setLoadStatus(3);
+          setScore(Math.floor(data));
+          console.log(msg, name, data);
+        });
+      },
     });
   }
   return (
