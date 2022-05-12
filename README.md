@@ -22,4 +22,4 @@ yarn
 yarn dev
 ```
 
-Finally, you can request with the URL like `http://localhost:8080/q?id=4399`
+Finally, you can request with the URL like `http://localhost:8080/?id=4399`

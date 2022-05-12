@@ -1,4 +1,4 @@
-import { React } from 'react';
+import React from 'react';
 import { Button, Dialog, Form, List } from 'antd-mobile';
 import { postAnsAPI } from '../api/score';
 import EachQuestion from './EachQuection';

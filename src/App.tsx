@@ -1,5 +1,5 @@
-import { NavBar } from 'antd-mobile';
 import React from 'react';
+import { NavBar } from 'antd-mobile';
 import { useState, useEffect } from 'react';
 import { getQuestionAPI } from './api/question';
 import Indicator from './components/Indicator';
@@ -55,7 +55,7 @@ export default function App() {
 
   async function initialData() {
     try {
-      paperCode = location.href.split('/q?')[1].split('&')[0].split('=')[1];
+      paperCode = location.href.split('/?')[1].split('&')[0].split('=')[1];
     } catch (e) {
       console.log(e);
       setLoadStatus(2);
