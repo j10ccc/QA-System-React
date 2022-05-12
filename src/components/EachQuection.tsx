@@ -1,13 +1,15 @@
+import React from 'react';
 import { CheckList, List } from 'antd-mobile';
 import { ListItem } from 'antd-mobile/es/components/list/list-item';
 
 enum TopicEnum {
   单选 = 1,
-  多选,
+  多选
 }
+
 function PrefixTag(props: any) {
   const style = {
-    color: 'gray',
+    color: 'gray'
   };
   return <span style={style}>{`(${TopicEnum[props.type]}) `}</span>;
 }
@@ -15,7 +17,7 @@ export default function EachQuestion(props: any) {
   const { item, index, toggleAns, field } = props;
   return (
     <>
-      <List header={'第 ' + `${index + 1}` + ' 题'} className='question'>
+      <List header={'第 ' + `${index + 1}` + ' 题'} className="question">
         <ListItem key={index}>
           <PrefixTag type={item.type}></PrefixTag>
           <span style={{ wordBreak: 'break-all' }}>{item.topic}</span>
@@ -25,11 +27,10 @@ export default function EachQuestion(props: any) {
           onChange={(value: string[]) => {
             return toggleAns({
               id: item.index,
-              key: value,
+              key: value
             });
           }}
-          value={field.key}
-        >
+          value={field.key}>
           {item.options.map((item: any, index: any) => (
             <CheckList.Item value={`${item.index}`} key={index}>
               {String.fromCharCode(index + 65) + '. ' + item.content}

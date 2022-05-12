@@ -1,3 +1,4 @@
+import React from 'react';
 import { Swiper } from 'antd-mobile';
 import { SwiperRef } from 'antd-mobile/es/components/swiper';
 import { useEffect, useRef } from 'react';
@@ -14,7 +15,7 @@ export default function Slide(props: any) {
     toggleAns,
     ansList,
     setScore,
-    setLoadStatus,
+    setLoadStatus
   } = props;
   useEffect(() => {
     swiper.current?.swipeTo(curPage - 1);
@@ -25,7 +26,7 @@ export default function Slide(props: any) {
     else {
       container?.setAttribute(
         'style',
-        'height: ' + document.querySelector('.preview')?.clientHeight,
+        'height: ' + document.querySelector('.preview')?.clientHeight
       );
     }
   }, [curPage]);
@@ -37,8 +38,7 @@ export default function Slide(props: any) {
       onIndexChange={(index) => {
         setCurPage(index + 1);
       }}
-      ref={swiper}
-    >
+      ref={swiper}>
       {data.map((item: any, index: any) => (
         <Swiper.Item key={index}>
           <EachQuestion

@@ -1,3 +1,4 @@
+import { React } from 'react';
 import { Button, Dialog, Form, List } from 'antd-mobile';
 import { postAnsAPI } from '../api/score';
 import EachQuestion from './EachQuection';
@@ -20,22 +21,21 @@ export default function Preview(props: any) {
           .split('&')[0]
           .split('=')[1];
         await postAnsAPI({ paperCode, ansList }).then((res) => {
-          const { msg, name, data } = res.data;
+          const { data } = res.data;
           setLoadStatus(3);
           setScore(Math.floor(data));
         });
-      },
+      }
     });
   }
   return (
     <Form
       footer={
-        <Button block type='submit' color='primary' onClick={submit}>
+        <Button block type="submit" color="primary" onClick={submit}>
           提交试卷
         </Button>
-      }
-    >
-      <List header='试卷总览' className='preview'>
+      }>
+      <List header="试卷总览" className="preview">
         {data.map((item: any, index: any) => (
           <EachQuestion
             item={item}

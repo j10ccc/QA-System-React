@@ -1,3 +1,4 @@
+import React from 'react';
 import { Result } from 'antd-mobile';
 
 export default function ShowResult(props: any) {

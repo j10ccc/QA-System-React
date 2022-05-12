@@ -1,4 +1,5 @@
 import { NavBar } from 'antd-mobile';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { getQuestionAPI } from './api/question';
 import Indicator from './components/Indicator';
@@ -30,11 +31,11 @@ export type ErrorInfoType = {
 };
 
 function initialAnsList(len: number) {
-  let tmpList: AnswerType[] = [];
+  const tmpList: AnswerType[] = [];
   for (let i = 0; i < len; i++) tmpList.push({ id: i, key: [] });
   return tmpList;
 }
-const defaultTitle = 'JH-QA'
+const defaultTitle = 'JH-QA';
 
 export default function App() {
   const [title, setTitle] = useState('');
@@ -62,20 +63,20 @@ export default function App() {
     }
     await getQuestionAPI(paperCode)
       .then((res) => {
-        if (res.data.msg != 'SUCCESS') {
+        if (res.data.msg !== 'SUCCESS') {
           setErrorInfo(res.data);
           setLoadStatus(2);
           return;
         }
         let initialData: any = new Array<QuestionType>();
-        res.data.data.map((item: any, index: number) => {
-          let obj: any = new Object();
+        res.data.data.forEach((item: any, index: number) => {
+          const obj: any = new Object();
           obj.index = index;
           obj.topic = item.Topic;
           obj.type = item.TypeNum;
           obj.options = [];
-          item.Options.map((item: string, index: number) => {
-            obj.options.push({ index: index, content: item });
+          item.Options.forEach((item: string, index: number) => {
+            obj.options.push({ index, content: item });
           });
           initialData.push(obj);
         });
@@ -90,6 +91,7 @@ export default function App() {
         setListLen(res.data.data.length);
         setTitle(res.data.name);
       })
+
       .catch((e) => {
         console.log(e);
         setLoadStatus(2);
@@ -101,7 +103,7 @@ export default function App() {
   function toggleAns(ans: AnswerType) {
     console.log(ans);
     setAnsList((status) =>
-      status.map((item, index) => (index == ans.id ? ans : item)),
+      status.map((item, index) => (index === ans.id ? ans : item))
     );
   }
   useTitle((title === '' ? '' : title + ' | ') + defaultTitle);

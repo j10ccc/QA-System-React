@@ -1,3 +1,3 @@
 export const TestContext = {
-  baseURL: 'http://qa.jh.zjutjh.com',
+  baseURL: 'http://qa.jh.zjutjh.com'
 };

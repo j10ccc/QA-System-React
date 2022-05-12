@@ -9,6 +9,6 @@ export type DataType = {
 export function getQuestionAPI(paramsList?: any) {
   return myAxios({
     url: '/api/getQuestion?id=' + paramsList,
-    method: 'get',
+    method: 'get'
   });
 }
