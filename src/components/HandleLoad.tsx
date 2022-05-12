@@ -17,7 +17,7 @@ export default function HandleLoad(props: any) {
         fullPage
         status={status}
         title={errorInfo.msg}
-        description={errorInfo.code}
+        description={'错误代码：' + errorInfo.code}
       />
     );
 }

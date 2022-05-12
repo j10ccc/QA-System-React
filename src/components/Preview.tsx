@@ -23,7 +23,6 @@ export default function Preview(props: any) {
           const { msg, name, data } = res.data;
           setLoadStatus(3);
           setScore(Math.floor(data));
-          console.log(msg, name, data);
         });
       },
     });

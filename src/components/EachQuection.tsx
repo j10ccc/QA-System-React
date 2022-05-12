@@ -1,19 +1,15 @@
-import { CheckList, List, Space, Tag } from 'antd-mobile';
+import { CheckList, List } from 'antd-mobile';
 import { ListItem } from 'antd-mobile/es/components/list/list-item';
 
 enum TopicEnum {
   单选 = 1,
   多选,
 }
-function SuffixTag(props: any) {
+function PrefixTag(props: any) {
   const style = {
     color: 'gray',
-  }
-  return (
-    <span style={style}>
-      {`(${TopicEnum[props.type]}) `}
-    </span>
-  )
+  };
+  return <span style={style}>{`(${TopicEnum[props.type]}) `}</span>;
 }
 export default function EachQuestion(props: any) {
   const { item, index, toggleAns, field } = props;
@@ -21,7 +17,7 @@ export default function EachQuestion(props: any) {
     <>
       <List header={'第 ' + `${index + 1}` + ' 题'} className='question'>
         <ListItem key={index}>
-          <SuffixTag type={item.type} ></SuffixTag>
+          <PrefixTag type={item.type}></PrefixTag>
           <span style={{ wordBreak: 'break-all' }}>{item.topic}</span>
         </ListItem>
         <CheckList

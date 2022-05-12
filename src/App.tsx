@@ -7,6 +7,7 @@ import Slide from './Slide';
 import { shuffle } from './Utils';
 import HandleLoad from './components/HandleLoad';
 import ShowResult from './components/ShowResult';
+import { useTitle } from 'ahooks';
 
 type OptionType = {
   index: number;
@@ -33,6 +34,7 @@ function initialAnsList(len: number) {
   for (let i = 0; i < len; i++) tmpList.push({ id: i, key: [] });
   return tmpList;
 }
+const defaultTitle = 'JH-QA'
 
 export default function App() {
   const [title, setTitle] = useState('');
@@ -41,11 +43,12 @@ export default function App() {
   const [loadStatus, setLoadStatus] = useState(1); // 0 完成, 1 加载中, 2 加载失败, 3 提交完成
   const [errorInfo, setErrorInfo] = useState({ msg: '未知错误', code: 0 }); // 默认状态没有发送请求
   const [score, setScore] = useState(0);
-
+  let loaded = false;
   let paperCode;
   useEffect(() => {
-    if (loadStatus !== 0) {
+    if (!loaded) {
       initialData();
+      loaded = true;
     }
   }, []);
 
@@ -81,11 +84,11 @@ export default function App() {
           return item;
         });
         initialData = shuffle(initialData);
+        setLoadStatus(0); // 处理 请求之后 setState 造成的 rerender
         setQuestionList(initialData);
         setAnsList(initialAnsList(res.data.data.length));
         setListLen(res.data.data.length);
         setTitle(res.data.name);
-        setLoadStatus(0); // 处理 请求之后 setState 造成的 rerender
       })
       .catch((e) => {
         console.log(e);
@@ -101,6 +104,7 @@ export default function App() {
       status.map((item, index) => (index == ans.id ? ans : item)),
     );
   }
+  useTitle((title === '' ? '' : title + ' | ') + defaultTitle);
   // TODO: 增加进度条
   // TODO: 增加信息栏
   if (loadStatus === 0)

@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "ahooks": "^3.3.10",
     "antd": "^4.20.2",
     "antd-mobile": "^5.11.1",
     "antd-mobile-icons": "^0.2.2",
