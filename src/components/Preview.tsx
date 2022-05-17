@@ -17,7 +17,7 @@ export default function Preview(props: any) {
       content: (emptyPage ? '你还有小题未完成，' : '') + '确认提交试卷？',
       onConfirm: async () => {
         const paperCode = location.href
-          .split('/q?')[1]
+          .split('/?')[1]
           .split('&')[0]
           .split('=')[1];
         await postAnsAPI({ paperCode, ansList }).then((res) => {

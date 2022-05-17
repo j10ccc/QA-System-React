@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavBar, Space } from 'antd-mobile';
 import { RightOutline } from 'antd-mobile-icons';
+import { Affix } from 'antd';
 
 function GoNext(props: any) {
   const { curPage, setCurPage, total } = props;
@@ -24,7 +25,7 @@ export default function PagePrompter(props: any) {
 
   if (curPage != total + 1)
     return (
-      <>
+      <Affix offsetBottom={0}>
         <NavBar
           back={curPage == 1 ? null : '上一题'}
           onBack={() => {
@@ -32,12 +33,13 @@ export default function PagePrompter(props: any) {
           }}
           right={
             <GoNext curPage={curPage} setCurPage={setCurPage} total={total} />
-          }>
+          }
+          style={{ backgroundColor: 'white' }}>
           <div>
             第 {curPage} / {total} 题
           </div>
         </NavBar>
-      </>
+      </Affix>
     );
   else return null;
 }
