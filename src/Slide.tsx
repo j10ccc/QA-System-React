@@ -21,9 +21,13 @@ export default function Slide(props: any) {
     swiper.current?.swipeTo(curPage - 1);
     let container: HTMLElement | null =
       document.querySelector('.adm-swiper-track');
-    if (curPage != total + 1)
-      container?.setAttribute('style', 'height: calc(100vh - 160px)');
-    else {
+    const curHeight =
+      document.querySelectorAll('.question')[curPage - 1].clientHeight;
+    if (curPage != total + 1) {
+      if (curHeight < window.innerHeight - 151)
+        container?.setAttribute('style', 'height: calc(100vh - 151px)');
+      else container?.setAttribute('style', `height: ${curHeight}px`);
+    } else {
       container?.setAttribute(
         'style',
         'height: ' + document.querySelector('.preview')?.clientHeight
