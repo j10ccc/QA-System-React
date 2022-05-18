@@ -4,7 +4,7 @@ import { postAnsAPI } from '../api/score';
 import EachQuestion from './EachQuection';
 
 export default function Preview(props: any) {
-  const { data, ansList, toggleAns, setScore, setLoadStatus } = props;
+  const { data, ansList, toggleAns, setScore, setLoadStatus, userInfo } = props;
   function submit() {
     let emptyPage = 0;
     for (let i = 0; i < ansList.length; i++) {
@@ -20,7 +20,12 @@ export default function Preview(props: any) {
           .split('/?')[1]
           .split('&')[0]
           .split('=')[1];
-        await postAnsAPI({ paperCode, ansList }).then((res) => {
+        await postAnsAPI({
+          id: paperCode,
+          ans: ansList,
+          uid: userInfo.uid,
+          name: userInfo.name
+        }).then((res) => {
           const { data } = res.data;
           setLoadStatus(3);
           setScore(Math.floor(data));

@@ -15,7 +15,8 @@ export default function Slide(props: any) {
     toggleAns,
     ansList,
     setScore,
-    setLoadStatus
+    setLoadStatus,
+    userInfo
   } = props;
   useEffect(() => {
     swiper.current?.swipeTo(curPage - 1);
@@ -61,6 +62,7 @@ export default function Slide(props: any) {
           setCurPage={setCurPage}
           setScore={setScore}
           setLoadStatus={setLoadStatus}
+          userInfo={userInfo}
         />
       </Swiper.Item>
     </Swiper>

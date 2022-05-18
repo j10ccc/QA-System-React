@@ -1,5 +1,5 @@
-import React from 'react';
-import { NavBar } from 'antd-mobile';
+import React, { useRef } from 'react';
+import { NavBar, Modal, Form } from 'antd-mobile';
 import { useState, useEffect } from 'react';
 import { getQuestionAPI } from './api/question';
 import Indicator from './components/Indicator';
@@ -9,6 +9,7 @@ import { shuffle } from './Utils';
 import HandleLoad from './components/HandleLoad';
 import ShowResult from './components/ShowResult';
 import { useTitle } from 'ahooks';
+import Login from './components/Login';
 
 type OptionType = {
   index: number;
@@ -29,6 +30,10 @@ export type ErrorInfoType = {
   code: number;
   msg: string;
 };
+export type UserInfoType = {
+  uid: string;
+  name: string;
+};
 
 function initialAnsList(len: number) {
   const tmpList: AnswerType[] = [];
@@ -44,6 +49,8 @@ export default function App() {
   const [loadStatus, setLoadStatus] = useState(1); // 0 完成, 1 加载中, 2 加载失败, 3 提交完成
   const [errorInfo, setErrorInfo] = useState({ msg: '未知错误', code: 0 }); // 默认状态没有发送请求
   const [score, setScore] = useState(0);
+  const [userInfo, setUserInfo] = useState<UserInfoType>();
+  const form = useRef<any>();
   let loaded = false;
   let paperCode;
   useEffect(() => {
@@ -85,11 +92,19 @@ export default function App() {
           return item;
         });
         initialData = shuffle(initialData);
-        setLoadStatus(0); // 处理 请求之后 setState 造成的 rerender
-        setQuestionList(initialData);
-        setAnsList(initialAnsList(res.data.data.length));
-        setListLen(res.data.data.length);
-        setTitle(res.data.name);
+        Modal.alert({
+          header: '请输入你的信息',
+          content: <Login form={form} />,
+          onConfirm: async () => {
+            const tmp = await form.current?.validateFields();
+            setUserInfo(tmp);
+            setLoadStatus(0); // 处理 请求之后 setState 造成的 rerender
+            setQuestionList(initialData);
+            setAnsList(initialAnsList(res.data.data.length));
+            setListLen(res.data.data.length);
+            setTitle(res.data.name);
+          }
+        });
       })
 
       .catch((e) => {
@@ -129,6 +144,7 @@ export default function App() {
           ansList={ansList}
           setScore={setScore}
           setLoadStatus={setLoadStatus}
+          userInfo={userInfo}
         />
         <PagePrompter
           total={listLen}
@@ -137,6 +153,7 @@ export default function App() {
         />
       </>
     );
-  else if (loadStatus === 3) return <ShowResult score={score} />;
+  else if (loadStatus === 3)
+    return <ShowResult score={score} title={title} userInfo={userInfo} />;
   else return <HandleLoad errorInfo={errorInfo} statusCode={loadStatus} />;
 }
