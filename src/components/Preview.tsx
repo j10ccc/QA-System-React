@@ -22,9 +22,14 @@ export default function Preview(props: any) {
           .split('=')[1];
         await postAnsAPI({
           id: paperCode,
-          ans: ansList,
+          name: userInfo.name,
           uid: userInfo.uid,
-          name: userInfo.name
+          ans: ansList.map((item: any) => {
+            return {
+              id: item.id,
+              key: item.key.map((item: any) => item * 1)
+            };
+          })
         }).then((res) => {
           const { data } = res.data;
           setLoadStatus(3);

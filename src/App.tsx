@@ -116,6 +116,7 @@ export default function App() {
   const [curPage, setCurPage] = useState(1);
   const [ansList, setAnsList] = useState<AnswerType[]>([]);
   function toggleAns(ans: AnswerType) {
+    console.log(ans);
     setAnsList((status) =>
       status.map((item, index) => (index === ans.id ? ans : item))
     );
