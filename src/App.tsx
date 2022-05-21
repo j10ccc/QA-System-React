@@ -50,6 +50,7 @@ export default function App() {
   const [errorInfo, setErrorInfo] = useState({ msg: '未知错误', code: 0 }); // 默认状态没有发送请求
   const [score, setScore] = useState(0);
   const [userInfo, setUserInfo] = useState<UserInfoType>();
+  const [check, setCheck] = useState();
   const form = useRef<any>();
   let loaded = false;
   let paperCode;
@@ -95,6 +96,7 @@ export default function App() {
         Modal.alert({
           header: '请输入你的信息',
           content: <Login form={form} />,
+          confirmText: '确定',
           onConfirm: async () => {
             const tmp = await form.current?.validateFields();
             setUserInfo(tmp);
@@ -116,7 +118,6 @@ export default function App() {
   const [curPage, setCurPage] = useState(1);
   const [ansList, setAnsList] = useState<AnswerType[]>([]);
   function toggleAns(ans: AnswerType) {
-    console.log(ans);
     setAnsList((status) =>
       status.map((item, index) => (index === ans.id ? ans : item))
     );
@@ -146,6 +147,7 @@ export default function App() {
           setScore={setScore}
           setLoadStatus={setLoadStatus}
           userInfo={userInfo}
+          setCheck={setCheck}
         />
         <PagePrompter
           total={listLen}
@@ -155,6 +157,13 @@ export default function App() {
       </>
     );
   else if (loadStatus === 3)
-    return <ShowResult score={score} title={title} userInfo={userInfo} />;
+    return (
+      <ShowResult
+        score={score}
+        title={title}
+        userInfo={userInfo}
+        check={check}
+      />
+    );
   else return <HandleLoad errorInfo={errorInfo} statusCode={loadStatus} />;
 }

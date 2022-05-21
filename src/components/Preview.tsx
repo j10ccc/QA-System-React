@@ -4,7 +4,15 @@ import { postAnsAPI } from '../api/score';
 import EachQuestion from './EachQuection';
 
 export default function Preview(props: any) {
-  const { data, ansList, toggleAns, setScore, setLoadStatus, userInfo } = props;
+  const {
+    data,
+    ansList,
+    toggleAns,
+    setScore,
+    setLoadStatus,
+    userInfo,
+    setCheck
+  } = props;
   function submit() {
     let emptyPage = 0;
     for (let i = 0; i < ansList.length; i++) {
@@ -31,9 +39,17 @@ export default function Preview(props: any) {
             };
           })
         }).then((res) => {
-          const { data } = res.data;
+          const { data, msg } = res.data;
+          if (msg === 'SUCCESS') {
+            if (data === '请勿重复提交') setCheck('REPEAT');
+            else {
+              setCheck('SUCCESS');
+              setScore(Math.floor(data));
+            }
+          } else {
+            setCheck('ERROR');
+          }
           setLoadStatus(3);
-          setScore(Math.floor(data));
         });
       }
     });
