@@ -69,44 +69,47 @@ export default function App() {
       setLoadStatus(2);
       return;
     }
-    await getQuestionAPI(paperCode)
+    await getQuestionAPI({ id: paperCode, time: new Date().getTime() })
       .then((res) => {
-        if (res.data.msg !== 'SUCCESS') {
+        if (res.data.msg === 'EXPIRED') {
+          setErrorInfo({ msg: '不在作答时间内', code: 0 });
+          setLoadStatus(2);
+        } else if (res.data.msg === 'SUCCESS') {
+          let initialData: any = new Array<QuestionType>();
+          res.data.data.forEach((item: any, index: number) => {
+            const obj: any = new Object();
+            obj.index = index;
+            obj.topic = item.Topic;
+            obj.type = item.TypeNum;
+            obj.options = [];
+            item.Options.forEach((item: string, index: number) => {
+              obj.options.push({ index, content: item });
+            });
+            initialData.push(obj);
+          });
+          initialData.map((item: QuestionType) => {
+            item.options = shuffle(item.options);
+            return item;
+          });
+          initialData = shuffle(initialData);
+          Modal.alert({
+            header: '请输入你的信息',
+            content: <Login form={form} />,
+            confirmText: '确定',
+            onConfirm: async () => {
+              const tmp = await form.current?.validateFields();
+              setUserInfo(tmp);
+              setLoadStatus(0); // 处理 请求之后 setState 造成的 rerender
+              setQuestionList(initialData);
+              setAnsList(initialAnsList(res.data.data.length));
+              setListLen(res.data.data.length);
+              setTitle(res.data.name);
+            }
+          });
+        } else {
           setErrorInfo(res.data);
           setLoadStatus(2);
-          return;
         }
-        let initialData: any = new Array<QuestionType>();
-        res.data.data.forEach((item: any, index: number) => {
-          const obj: any = new Object();
-          obj.index = index;
-          obj.topic = item.Topic;
-          obj.type = item.TypeNum;
-          obj.options = [];
-          item.Options.forEach((item: string, index: number) => {
-            obj.options.push({ index, content: item });
-          });
-          initialData.push(obj);
-        });
-        initialData.map((item: QuestionType) => {
-          item.options = shuffle(item.options);
-          return item;
-        });
-        initialData = shuffle(initialData);
-        Modal.alert({
-          header: '请输入你的信息',
-          content: <Login form={form} />,
-          confirmText: '确定',
-          onConfirm: async () => {
-            const tmp = await form.current?.validateFields();
-            setUserInfo(tmp);
-            setLoadStatus(0); // 处理 请求之后 setState 造成的 rerender
-            setQuestionList(initialData);
-            setAnsList(initialAnsList(res.data.data.length));
-            setListLen(res.data.data.length);
-            setTitle(res.data.name);
-          }
-        });
       })
 
       .catch((e) => {
