@@ -69,7 +69,7 @@ export default function App() {
       setLoadStatus(2);
       return;
     }
-    await getQuestionAPI({ id: paperCode, time: new Date().getTime() })
+    await getQuestionAPI({ id: paperCode, time: new Date().getTime() / 100 })
       .then((res) => {
         if (res.data.msg === 'EXPIRED') {
           setErrorInfo({ msg: '不在作答时间内', code: 0 });
