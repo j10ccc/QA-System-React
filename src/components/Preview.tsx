@@ -4,7 +4,15 @@ import { postAnsAPI } from '../api/score';
 import EachQuestion from './EachQuection';
 
 export default function Preview(props: any) {
-  const { data, ansList, toggleAns, setScore, setLoadStatus } = props;
+  const {
+    data,
+    ansList,
+    toggleAns,
+    setScore,
+    setLoadStatus,
+    userInfo,
+    setCheck
+  } = props;
   function submit() {
     let emptyPage = 0;
     for (let i = 0; i < ansList.length; i++) {
@@ -20,10 +28,28 @@ export default function Preview(props: any) {
           .split('/?')[1]
           .split('&')[0]
           .split('=')[1];
-        await postAnsAPI({ paperCode, ansList }).then((res) => {
-          const { data } = res.data;
+        await postAnsAPI({
+          id: paperCode,
+          name: userInfo.name,
+          uid: userInfo.uid,
+          ans: ansList.map((item: any) => {
+            return {
+              id: item.id,
+              key: item.key.map((item: any) => item * 1)
+            };
+          })
+        }).then((res) => {
+          const { data, msg } = res.data;
+          if (msg === 'SUCCESS') {
+            if (data === '请勿重复提交') setCheck('REPEAT');
+            else {
+              setCheck('SUCCESS');
+              setScore(Math.floor(data));
+            }
+          } else {
+            setCheck('ERROR');
+          }
           setLoadStatus(3);
-          setScore(Math.floor(data));
         });
       }
     });

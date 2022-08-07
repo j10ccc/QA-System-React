@@ -7,8 +7,9 @@ export type DataType = {
   data?: QuestionType[];
 };
 export function getQuestionAPI(paramsList?: any) {
+  const { id, time } = paramsList;
   return myAxios({
-    url: '/api/getQuestion?id=' + paramsList,
+    url: '/api/getQuestion?id=' + id + '&time=' + time,
     method: 'get'
   });
 }
